@@ -44,7 +44,7 @@ require("renv")
 
 # Select option 1 to restore the project from the lockfile
 renv::init()
-
+ 
 # This will set up a project library, containing all the packages you are
 # currently using. The packages (and all the metadata needed to reinstall
 # them) are recorded into a lockfile, renv.lock, and a .Rprofile ensures that
