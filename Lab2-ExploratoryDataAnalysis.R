@@ -304,7 +304,7 @@ if (!is.element("e1071", installed.packages()[, 1])) {
   install.packages("e1071", dependencies = TRUE)
 }
 require("e1071")
-
+                                                                       
 sapply(BostonHousing[, -4],  kurtosis, type = 2)
 sapply(crop_dataset[, 4],  kurtosis, type = 2)
 sapply(iris_dataset[, 1:4],  kurtosis, type = 2)
@@ -315,7 +315,7 @@ sapply(PimaIndiansDiabetes[, 1:8],  kurtosis, type = 2)
 # The skewness informs you of the asymmetry of the distribution of results.
 # Similar to kurtosis, there are several ways of computing the skewness.
 # Using “type = 2” can be interpreted as:
-
+#
 # 1.	Skewness between -0.4 and 0.4 (inclusive) implies that there is no skew
 # in the distribution of results; the distribution of results is symmetrical;
 # it is a normal distribution.
