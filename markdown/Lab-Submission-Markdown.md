@@ -13,7 +13,8 @@ Business Intelligence Lab Submission Markdown
 
 |                                                   |                                                                                            |
 |---------------------------------------------------|--------------------------------------------------------------------------------------------|
-| **Student ID Numbers and Names of Group Members** | \< 112827-Lumin-Kenneth Mungai\> |
+| **Student ID Numbers and Names of Group Members** |  112827-Lumin-Kenneth Mungai 
+|                                                      134265-Lumin-Emmanuel Kiptoo                                                                | 
 | **BBIT 4.2 Group**                                | \<either group A, B, or C\>                                                                |
 | **Course Code**                                   | BBT4206                                                                                    |
 | **Course Name**                                   | Business Intelligence II                                                                   |
