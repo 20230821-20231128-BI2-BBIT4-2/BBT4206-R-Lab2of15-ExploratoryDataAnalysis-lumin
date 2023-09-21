@@ -108,16 +108,9 @@ if (!is.element("readr", installed.packages()[, 1])) {
 }
 require("readr")
 
-crop_dataset <- read_csv(
-  "data/crop.data.csv",
-  col_types = cols(
-    density = col_factor(levels = c("1", "2")),
-    block = col_factor(levels = c("1", "2", "3", "4")),
-    fertilizer = col_factor(levels = c("1", "2", "3")),
-    yield = col_double()
-  )
-)
-View(crop_dataset)
+library(readr)
+crop_data <- read_csv("data/crop.data.csv")
+View(crop_data)
 
 ## STEP 4. Load sample datasets that are provided as part of a package ----
 if (!is.element("mlbench", installed.packages()[, 1])) {
@@ -135,7 +128,7 @@ data("BostonHousing")
 # display the dimensions of your datasets:
 
 dim(BostonHousing)
-dim(crop_dataset)
+dim(crop_data)
 dim(iris_dataset)
 dim(PimaIndiansDiabetes)
 
@@ -147,7 +140,7 @@ dim(PimaIndiansDiabetes)
 # or vice versa where necessary. Execute the following command to identify the
 # data types:
 sapply(BostonHousing, class)
-sapply(crop_dataset, class)
+sapply(crop_data, class)
 sapply(iris_dataset, class)
 sapply(PimaIndiansDiabetes, class)
 
@@ -199,17 +192,17 @@ boston_housing_freq <- BostonHousing$chas
 cbind(frequency = table(boston_housing_freq),
       percentage = prop.table(table(boston_housing_freq)) * 100)
 
-crop_dataset_density_freq <- crop_dataset$density
-cbind(frequency = table(crop_dataset_density_freq),
-      percentage = prop.table(table(crop_dataset_density_freq)) * 100)
+crop_data_density_freq <- crop_data$density
+cbind(frequency = table(crop_data_density_freq),
+      percentage = prop.table(table(crop_data_density_freq)) * 100)
 
-crop_dataset_block_freq <- crop_dataset$block
-cbind(frequency = table(crop_dataset_block_freq),
-      percentage = prop.table(table(crop_dataset_block_freq)) * 100)
+crop_data_block_freq <- crop_data$block
+cbind(frequency = table(crop_data_block_freq),
+      percentage = prop.table(table(crop_data_block_freq)) * 100)
 
-crop_dataset_fertilizer_freq <- crop_dataset$fertilizer
-cbind(frequency = table(crop_dataset_fertilizer_freq),
-      percentage = prop.table(table(crop_dataset_fertilizer_freq)) * 100)
+crop_data_fertilizer_freq <- crop_data$fertilizer
+cbind(frequency = table(crop_data_fertilizer_freq),
+      percentage = prop.table(table(crop_data_fertilizer_freq)) * 100)
 
 iris_dataset_freq <- iris_dataset$V5
 cbind(frequency = table(iris_dataset_freq),
@@ -229,10 +222,10 @@ boston_housing_chas_mode <- names(table(BostonHousing$chas))[
 ]
 print(boston_housing_chas_mode)
 
-crop_dataset_fertilizer_mode <- names(table(crop_dataset$fertilizer))[
-  which(table(crop_dataset$fertilizer) == max(table(crop_dataset$fertilizer)))
+crop_data_fertilizer_mode <- names(table(crop_data$fertilizer))[
+  which(table(crop_data$fertilizer) == max(table(crop_data$fertilizer)))
 ]
-print(crop_dataset_fertilizer_mode)
+print(crop_data_fertilizer_mode)
 
 iris_dataset_mode <- names(table(iris_dataset$V5))[
   which(table(iris_dataset$V5) == max(table(iris_dataset$V5)))
@@ -249,7 +242,7 @@ print(pima_indians_diabetes_mode)
 
 ### STEP 9. Measure the distribution of the data for each variable ----
 summary(BostonHousing)
-summary(crop_dataset)
+summary(crop_data)
 summary(iris_dataset)
 summary(PimaIndiansDiabetes)
 
@@ -277,7 +270,7 @@ sapply(BostonHousing[, c(1, 2, 3, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14)], sd)
 
 # The data type of "yield" should be double (not numeric) so that it can be
 # calculated.
-sapply(crop_dataset[, 4], sd)
+sapply(crop_data[, 4], sd)
 sapply(iris_dataset[, 1:4], sd)
 sapply(PimaIndiansDiabetes[, 1:8], sd)
 
