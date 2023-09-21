@@ -276,7 +276,7 @@ sapply(PimaIndiansDiabetes[, 1:8], sd)
 
 ### STEP 11. Measure the variance of each variable ----
 sapply(BostonHousing[, -4], var)
-sapply(crop_dataset[, 4], var)
+sapply(crop_data[, 4], var)
 sapply(iris_dataset[, 1:4], var)
 sapply(PimaIndiansDiabetes[, 1:8], var)
 
@@ -299,7 +299,7 @@ if (!is.element("e1071", installed.packages()[, 1])) {
 require("e1071")
 
 sapply(BostonHousing[, -4],  kurtosis, type = 2)
-sapply(crop_dataset[, 4],  kurtosis, type = 2)
+sapply(crop_data[, 4],  kurtosis, type = 2)
 sapply(iris_dataset[, 1:4],  kurtosis, type = 2)
 sapply(PimaIndiansDiabetes[, 1:8],  kurtosis, type = 2)
 
@@ -316,7 +316,7 @@ sapply(PimaIndiansDiabetes[, 1:8],  kurtosis, type = 2)
 # 3.	Skewness below -0.4 implies a negative skew; a left-skewed distribution.
 
 sapply(BostonHousing[, -4],  skewness, type = 2)
-sapply(crop_dataset[, 4],  skewness, type = 2)
+sapply(crop_data[, 4],  skewness, type = 2)
 sapply(iris_dataset[, 1:4],  skewness, type = 2)
 sapply(PimaIndiansDiabetes[, 1:8],  skewness, type = 2)
 
@@ -336,8 +336,8 @@ sapply(PimaIndiansDiabetes[, 1:8],  skewness, type = 2)
 boston_housing_cov <- cov(BostonHousing[, -4])
 View(boston_housing_cov)
 
-crop_dataset_cov <- cov(crop_dataset[, 4])
-View(crop_dataset_cov)
+crop_data_cov <- cov(crop_data[, 4])
+View(crop_data_cov)
 
 iris_dataset_cov <- cov(iris_dataset[, 1:4])
 View(iris_dataset_cov)
@@ -349,8 +349,8 @@ View(pima_indians_diabetes_cov)
 boston_housing_cor <- cor(BostonHousing[, -4])
 View(boston_housing_cor)
 
-crop_dataset_cor <- cor(crop_dataset[, 4])
-View(crop_dataset_cor)
+crop_data_cor <- cor(crop_data[, 4])
+View(crop_data_cor)
 
 iris_dataset_cor <- cor(iris_dataset[, 1:4])
 View(iris_dataset_cor)
@@ -589,8 +589,8 @@ hist(BostonHousing[, 14], main = names(BostonHousing)[14])
 # The code below converts column number 4 into unlisted and numeric data first
 # so that a histogram can be plotted. Further reading:
 # https://www.programmingr.com/r-error-messages/x-must-be-numeric-error-in-r-histogram/ ) # nolint
-crop_dataset_yield <- as.numeric(unlist(crop_dataset[, 4]))
-hist(crop_dataset_yield, main = names(crop_dataset)[4])
+crop_data_yield <- as.numeric(unlist(crop_data[, 4]))
+hist(crop_data_yield, main = names(crop_data)[4])
 
 # Execute the following code to create histograms for attribute 1 to 4 of the
 # “iris_dataset” dataset:
@@ -679,7 +679,7 @@ barplot(table(BostonHousing[, 4]), main = names(BostonHousing)[4])
 
 par(mfrow = c(1, 3))
 for (i in 1:3) {
-  barplot(table(crop_dataset[, i]), main = names(crop_dataset)[i])
+  barplot(table(crop_data[, i]), main = names(crop_data)[i])
 }
 
 # The attributes in the “iris_dataset” dataset are:
@@ -723,7 +723,7 @@ if (!is.element("Amelia", installed.packages()[, 1])) {
 require("Amelia")
 
 missmap(BostonHousing, col = c("red", "grey"), legend = TRUE)
-missmap(crop_dataset, col = c("red", "grey"), legend = TRUE)
+missmap(crop_data, col = c("red", "grey"), legend = TRUE)
 missmap(iris_dataset, col = c("red", "grey"), legend = TRUE)
 missmap(PimaIndiansDiabetes, col = c("red", "grey"), legend = TRUE)
 
