@@ -23,7 +23,7 @@ library(stats)          # For basic statistical functions
 {r Load Dataset}
 student_performance_dataset <-
   readr::read_csv(
-    "data/perfomance-dataset.csv", # nolint
+    "markdown/perfomance-dataset.csv", # nolint
     col_types =
       readr::cols(
         class_group =
@@ -403,25 +403,12 @@ grid.arrange(
 
 # Load necessary libraries
 library(tidyverse)
-library(car)    # For ANOVA assumptions
 library(broom)  # For tidying ANOVA results
 library(MASS)   # For logistic regression
 
 # Specify the independent and dependent variables
 independent_var <- "study_time"
 dependent_var <- "GRADE"
-
-# Check ANOVA assumptions
-# 1. Homogeneity of variances
-# Levene's Test
-levene_test <- car::leveneTest(selected_data[[independent_var]], selected_data[[dependent_var]])
-
-# 2. Normality of residuals
-# Shapiro-Wilk Test
-shapiro_test <- shapiro.test(residuals(anova_result))
-
-# 3. White's Test for Heteroscedasticity
-white_test <- lmtest::bptest(anova_result)
 
 # Perform the Chi-squared Test for Independence (Gender and Grade)
 chi_square_test <- chisq.test(selected_data$GRADE, selected_data$gender)
@@ -430,16 +417,7 @@ chi_square_test <- chisq.test(selected_data$GRADE, selected_data$gender)
 logistic_model <- glm(GRADE ~ gender, data = selected_data, family = binomial(link = "logit"))
 
 # Print results
-cat("Levene's Test for Homogeneity of Variances:\n")
-print(levene_test)
-
-cat("\nShapiro-Wilk Test for Normality of Residuals:\n")
-print(shapiro_test)
-
-cat("\nWhite's Test for Heteroscedasticity:\n")
-print(white_test)
-
-cat("\nChi-squared Test for Independence (Gender and Grade):\n")
+cat("Chi-squared Test for Independence (Gender and Grade):\n")
 print(chi_square_test)
 
 cat("\nLogistic Regression (Gender and Grade):\n")
