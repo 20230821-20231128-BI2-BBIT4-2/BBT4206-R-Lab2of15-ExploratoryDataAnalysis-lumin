@@ -5,6 +5,25 @@ Lumin
 
 - [Student Details](#student-details)
 - [Setup Chunk](#setup-chunk)
+- [SETUP CHUNK](#setup-chunk-1)
+  - [Next, let’s load the Student Performance
+    Dataset.](#next-lets-load-the-student-performance-dataset)
+- [Step 1: Summary Statistics](#step-1-summary-statistics)
+  - [Let’s start by examining some basic statistics and the structure of
+    the
+    dataset.](#lets-start-by-examining-some-basic-statistics-and-the-structure-of-the-dataset)
+- [Step 2:Data Processing](#step-2data-processing)
+- [Step 3: Measures of Frequency and Summary
+  Statistics](#step-3-measures-of-frequency-and-summary-statistics)
+  - [In this step, we will calculate measures of frequency and summary
+    statistics for selected
+    variables.](#in-this-step-we-will-calculate-measures-of-frequency-and-summary-statistics-for-selected-variables)
+- [Step 4: Data Visualization](#step-4-data-visualization)
+  - [In this step, we will create visualizations to explore the
+    data.](#in-this-step-we-will-create-visualizations-to-explore-the-data)
+- [Step 5: Statistical Tests](#step-5-statistical-tests)
+  - [In this step, we will perform statistical tests to analyze the
+    data.](#in-this-step-we-will-perform-statistical-tests-to-analyze-the-data)
 
 # Student Details
 
@@ -47,9 +66,9 @@ More KnitR options are documented here
 <https://bookdown.org/yihui/rmarkdown-cookbook/chunk-options.html> and
 here <https://yihui.org/knitr/options/>.
 
-\#SETUP CHUNK\>
+# SETUP CHUNK
 
-\##Next, let’s load the Student Performance Dataset.
+## Next, let’s load the Student Performance Dataset.
 
 ``` r
 student_performance_dataset <-
@@ -129,8 +148,9 @@ student_performance_dataset <-
            locale = locale())
 ```
 
-\#Step 1: Summary Statistics \##Let’s start by examining some basic
-statistics and the structure of the dataset.
+# Step 1: Summary Statistics
+
+## Let’s start by examining some basic statistics and the structure of the dataset.
 
 ``` r
 # View the first few rows
@@ -845,7 +865,7 @@ boxplot(student_performance_dataset$study_time ~ student_performance_dataset$cla
 library(readr)
 ```
 
-\#Step 2:Data Processing
+# Step 2:Data Processing
 
 ``` r
 # Select only numeric columns and convert them to numeric
@@ -885,9 +905,9 @@ selected_data <- student_performance_dataset %>%
 library(readr)
 ```
 
-\#Step 3: Measures of Frequency and Summary Statistics \###In this step,
-we will calculate measures of frequency and summary statistics for
-selected variables.
+# Step 3: Measures of Frequency and Summary Statistics
+
+### In this step, we will calculate measures of frequency and summary statistics for selected variables.
 
 ``` r
 # Measures of Frequency
@@ -1175,8 +1195,9 @@ print(kurtosis_exercise)
 library(readr)
 ```
 
-\#Step 4: Data Visualization \###In this step, we will create
-visualizations to explore the data.
+# Step 4: Data Visualization
+
+### In this step, we will create visualizations to explore the data.
 
 ``` r
 # Load necessary libraries
@@ -1287,8 +1308,9 @@ grid.arrange(
 library(readr)
 ```
 
-\#Step 5: Statistical Tests \###In this step, we will perform
-statistical tests to analyze the data.
+# Step 5: Statistical Tests
+
+### In this step, we will perform statistical tests to analyze the data.
 
 ``` r
 # Load necessary libraries
