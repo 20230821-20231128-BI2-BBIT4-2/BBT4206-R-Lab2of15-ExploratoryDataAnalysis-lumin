@@ -1,7 +1,7 @@
 ---
 title: "Business Intelligence Lab Submission Markdown"
-author: "<Specify your name here>"
-date: "<Specify the date when you submitted the lab>"
+author: "Lumin"
+date: "<25/9/23"
 output:
   github_document: 
     toc: yes
@@ -19,6 +19,7 @@ editor_options:
 |--------------------------------------------------|
 | 112827-Lumin-Kenneth Mungai                      |
 | 134265-Lumin-Emmanuel Kiptoo                     |
+| 123324-Kelly Noella Sota                         |
 
 **BBIT 4.2 Group**: \<either group A, B, or C\>  
 
@@ -52,18 +53,35 @@ editor_options:
 More KnitR options are documented here <https://bookdown.org/yihui/rmarkdown-cookbook/chunk-options.html> and here <https://yihui.org/knitr/options/>.
 
 ```{r setup, include=FALSE}
-library(formatR)
-knitr::opts_chunk$set(echo = TRUE, warning = FALSE, eval = TRUE,
-                      collapse = FALSE, tidy = TRUE)
+# Install and load the renv package if you haven't already
+if (!requireNamespace("renv", quietly = TRUE)) {
+  install.packages("renv")
+}
+
+# Initialize renv
+renv::init()
+
+# Install required packages
+renv::install(c("tidyverse", "ggplot2", "dplyr", "summarytools", "knitr"))
+
+install.packages("stats")
+
+# Load the packages
+library(tidyverse)      # For data manipulation and visualization
+library(ggplot2)        # For creating beautiful plots
+library(dplyr)          # For data manipulation
+library(summarytools)   # For summary statistics
+library(knitr)          # For generating reports with knitr
+library(stats)          # For basic statistical functions
 ```
 
-# \<Provide an Appropriate Title Here\>
+#SETUP CHUNK>
 
-Describe the code chunk here:
+##Next, let's load the Student Performance Dataset.
 
 ```{r Your Second Code Chunk}
 student_performance_dataset <-
-  read_csv("data/20230412-20230719-BI1-BBIT4-1-StudentPerformanceDataset.CSV",
+  read_csv("perfomance-dataset.csv",
            col_types =
              cols(
                class_group = col_factor(levels = c("A", "B", "C")),
@@ -138,21 +156,300 @@ student_performance_dataset <-
                GRADE = col_factor(levels = c("A", "B", "C", "D", "E"))),
            locale = locale())
 ```
+#Step 1: Summary Statistics
+##Let's start by examining some basic statistics and the structure of the dataset.
 
-Describe the next code chunk here:
 
 ```{r Your Third Code Chunk}
-# Fill this with other R related code that will be executed when the R markdown
-# file is rendered using knitR
+# View the first few rows
+head(student_performance_dataset)
+
+# Structure of the dataset
+str(student_performance_dataset)
+
+# Summary statistics
+summary(student_performance_dataset)
+# Count of each class group
+table(student_performance_dataset$class_group)
+
+##Gender Analysis
+###Next, we'll examine the gender distribution among students.
+# Count and percentage of gender
+table(student_performance_dataset$gender)
+prop.table(table(student_performance_dataset$gender))
+
+##Visualization
+###We'll create some visualizations to better understand the 
+# Create a bar plot for counts of birth years
+birth_year_counts <- table(format(student_performance_dataset$YOB, "%Y"))
+barplot(birth_year_counts, main = "Distribution of Birth Years", xlab = "Year of Birth", ylab = "Count")
+
+# Bar plot for class group
+barplot(table(student_performance_dataset$class_group), main = "Class Group Distribution", xlab = "Class Group", ylab = "Count")
+
+# Box plot of study time by class group
+boxplot(student_performance_dataset$study_time ~ student_performance_dataset$class_group, main = "Study Time by Class Group", xlab = "Class Group", ylab = "Study Time")
+
 library(readr)
 ```
 
-## \<You Can Have a Sub-Title Here\>
 
+
+#Step 2:Data Processing
 ```{r Your Fourth Code Chunk}
-# Fill this with other R related code that will be executed when the R markdown
-# file is rendered using knitR
+# Select only numeric columns and convert them to numeric
+numeric_data <- select(student_performance_dataset, -c(YOB, repeats_since_Y1)) %>%
+  mutate_if(is.character, as.numeric)
+
+# Example: Remove rows with missing values
+# Load the tidyr package
+library(tidyr)
+
+# Remove rows with missing values
+student_performance_dataset <- student_performance_dataset %>%
+  drop_na()
+
+# Select relevant variables
+selected_vars <- c(
+  "study_time", "mentor", "health", "YOB", "class_group",
+  "repeats_since_Y1", "read_content_before_lecture",
+  "take_quizzes_and_use_results", "reorganise_course_outline",
+  "space_out_revision", "exercise_per_week", "GRADE", "gender"
+)
+
+selected_data <- student_performance_dataset %>%
+  select(all_of(selected_vars))
+
 library(readr)
 ```
 
-**etc.** as per the lab submission requirements.
+#Step 3: Measures of Frequency and Summary Statistics
+###In this step, we will calculate measures of frequency and summary statistics for selected variables.
+
+```{r Your Fifth Code Chunk}
+# Measures of Frequency
+
+# 1. Count the number of students in each class group
+class_group_counts <- selected_data %>%
+  count(class_group)
+
+# 2. Count the number of students with mentors
+mentor_counts <- selected_data %>%
+  count(mentor)
+
+# 3. Count the number of students with various health ratings
+health_counts <- selected_data %>%
+  count(health)
+
+# 4. Count the number of students in each study time category
+study_time_counts <- selected_data %>%
+  count(study_time)
+
+# 5. Count the number of students based on their Year of Birth (YOB)
+yob_counts <- selected_data %>%
+  count(YOB)
+
+# 6. Count the number of students based on their exercise_per_week
+exercise_counts <- selected_data %>%
+  count(exercise_per_week)
+
+# Summary Statistics
+
+# Convert 'study_time' and 'exercise_per_week' to numeric
+selected_data <- selected_data %>%
+  mutate(study_time = as.numeric(study_time),
+         exercise_per_week = as.numeric(exercise_per_week))
+
+# 1. Calculate the mean for study_time
+mean_study_time <- selected_data %>%
+  summarize(mean_study_time = mean(study_time, na.rm = TRUE))
+
+# 2. Calculate the median for study_time
+median_study_time <- selected_data %>%
+  summarize(median_study_time = median(study_time, na.rm = TRUE))
+
+# 3. Calculate the variance for study_time
+var_study_time <- selected_data %>%
+  summarize(var_study_time = var(study_time, na.rm = TRUE))
+
+# 4. Calculate the standard deviation for study_time
+std_dev_study_time <- selected_data %>%
+  summarize(std_dev_study_time = sd(study_time, na.rm = TRUE))
+
+# 5. Calculate the skewness for study_time
+skewness_study_time <- selected_data %>%
+  summarize(skewness_study_time = psych::skew(study_time, na.rm = TRUE))
+
+# 6. Calculate the kurtosis for study_time
+kurtosis_study_time <- selected_data %>%
+  summarize(kurtosis_study_time = e1071::kurtosis(study_time, na.rm = TRUE))
+
+# 7. Calculate the mean for exercise_per_week
+mean_exercise <- selected_data %>%
+  summarize(mean_exercise = mean(exercise_per_week, na.rm = TRUE))
+
+# 8. Calculate the median for exercise_per_week
+median_exercise <- selected_data %>%
+  summarize(median_exercise = median(exercise_per_week, na.rm = TRUE))
+
+# 9. Calculate the variance for exercise_per_week
+var_exercise <- selected_data %>%
+  summarize(var_exercise = var(exercise_per_week, na.rm = TRUE))
+
+# 10. Calculate the standard deviation for exercise_per_week
+std_dev_exercise <- selected_data %>%
+  summarize(std_dev_exercise = sd(exercise_per_week, na.rm = TRUE))
+
+# 11. Calculate the skewness for exercise_per_week
+skewness_exercise <- selected_data %>%
+  summarize(skewness_exercise = psych::skew(exercise_per_week, na.rm = TRUE))
+
+# 12. Calculate the kurtosis for exercise_per_week
+kurtosis_exercise <- selected_data %>%
+  summarize(kurtosis_exercise = e1071::kurtosis(exercise_per_week, na.rm = TRUE))
+
+# Print the results
+
+# Measures of Frequency
+print("Measures of Frequency:")
+print(class_group_counts)
+print(mentor_counts)
+print(health_counts)
+print(study_time_counts)
+print(yob_counts)
+print(exercise_counts)
+
+# Summary Statistics
+print("Summary Statistics:")
+print(mean_study_time)
+print(median_study_time)
+print(var_study_time)
+print(std_dev_study_time)
+print(skewness_study_time)
+print(kurtosis_study_time)
+
+# Summary Statistics for Exercise
+print("Summary Statistics for Exercise per Week:")
+print(mean_exercise)
+print(median_exercise)
+print(var_exercise)
+print(std_dev_exercise)
+print(skewness_exercise)
+print(kurtosis_exercise)
+
+library(readr)
+```
+
+#Step 4: Data Visualization
+###In this step, we will create visualizations to explore the data.
+
+```{r Your Sixth Code Chunk}
+# Load necessary libraries
+library(tidyverse)
+library(gridExtra)
+
+# Select relevant variables
+selected_vars <- c(
+  "study_time", "mentor", "health", "YOB", "class_group",
+  "repeats_since_Y1", "read_content_before_lecture",
+  "take_quizzes_and_use_results", "reorganise_course_outline",
+  "space_out_revision", "exercise_per_week", "GRADE", "gender"
+)
+
+# Select and clean the data
+selected_data <- student_performance_dataset %>%
+  select(all_of(selected_vars)) %>%
+  drop_na()  # Remove rows with missing values
+
+# Ensure that relevant columns are numeric
+selected_data$study_time <- as.numeric(selected_data$study_time)
+selected_data$exercise_per_week <- as.numeric(selected_data$exercise_per_week)
+selected_data$YOB <- as.numeric(selected_data$YOB)
+
+# Convert "GRADE" to numeric
+selected_data$GRADE <- as.numeric(selected_data$GRADE)
+
+# Verify the structure of the cleaned data
+str(selected_data)
+
+# Visualization 1: Histogram of Study Time
+histogram_study_time <- ggplot(selected_data, aes(x = study_time)) +
+  geom_histogram(binwidth = 1, fill = "blue", color = "black") +
+  labs(title = "Distribution of Study Time",
+       x = "Study Time (hours per week)",
+       y = "Frequency")
+
+# Visualization 2: Bar Chart of Gender Distribution
+gender_bar_chart <- ggplot(selected_data, aes(x = gender)) +
+  geom_bar(fill = "purple") +
+  labs(title = "Gender Distribution",
+       x = "Gender",
+       y = "Count")
+
+# Visualization 3: Box Plot of Age vs. Performance
+box_plot_age_performance <- ggplot(selected_data, aes(x = as.factor(YOB), y = GRADE)) +
+  geom_boxplot(fill = "green", color = "black") +
+  labs(title = "Box Plot of Age vs. Performance",
+       x = "YOB",
+       y = "GRADE")
+
+# Visualization 4: Bar Plot of Class Group Distribution
+class_group_counts <- table(selected_data$class_group)
+class_group_bar_plot <- ggplot(data.frame(class_group = factor(names(class_group_counts)), count = as.numeric(class_group_counts)), 
+                               aes(x = class_group, y = count, fill = class_group)) +
+  geom_bar(stat = "identity") +
+  labs(title = "Class Group Distribution",
+       x = "Class Group",
+       y = "Count") +
+  theme_minimal()
+
+# Visualization 5: Scatter Plot of Exercise vs. Study Time
+scatter_plot_exercise_vs_study_time <- ggplot(selected_data, aes(x = study_time, y = exercise_per_week, color = GRADE)) +
+  geom_point() +
+  labs(title = "Scatter Plot of Exercise vs. Study Time",
+       x = "Study Time (hours per week)",
+       y = "Exercise per Week") +
+  scale_color_gradient(low = "blue", high = "red")
+
+# Arrange and display the plots
+grid.arrange(
+  histogram_study_time, gender_bar_chart, 
+  box_plot_age_performance, class_group_bar_plot, 
+  scatter_plot_exercise_vs_study_time, 
+  ncol = 2, top = "Exploratory Data Analysis"
+)
+
+library(readr)
+```
+
+#Step 5: Statistical Tests
+###In this step, we will perform statistical tests to analyze the data.
+
+```{r Your Seventh Code Chunk}
+# Load necessary libraries
+library(tidyverse)
+library(broom)  # For tidying ANOVA results
+library(MASS)   # For logistic regression
+
+# Specify the independent and dependent variables
+independent_var <- "study_time"
+dependent_var <- "GRADE"
+
+# Perform the Chi-squared Test for Independence (Gender and Grade)
+chi_square_test <- chisq.test(selected_data$GRADE, selected_data$gender)
+
+# Recode "GRADE" to binary (if needed)
+selected_data$GRADE <- ifelse(selected_data$GRADE == "A", 1, 0)
+
+# Perform Logistic Regression (Gender and Grade)
+logistic_model <- glm(GRADE ~ gender, data = selected_data, family = binomial(link = "logit"))
+
+# Print results
+cat("Chi-squared Test for Independence (Gender and Grade):\n")
+print(chi_square_test)
+
+cat("\nLogistic Regression (Gender and Grade):\n")
+summary(logistic_model)
+
+library(readr)
+```
