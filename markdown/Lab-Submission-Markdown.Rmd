@@ -75,9 +75,9 @@ library(knitr)          # For generating reports with knitr
 library(stats)          # For basic statistical functions
 ```
 
-#SETUP CHUNK>
+# SETUP CHUNK
 
-##Next, let's load the Student Performance Dataset.
+## Next, let's load the Student Performance Dataset.
 
 ```{r Your Second Code Chunk}
 student_performance_dataset <-
@@ -156,8 +156,8 @@ student_performance_dataset <-
                GRADE = col_factor(levels = c("A", "B", "C", "D", "E"))),
            locale = locale())
 ```
-#Step 1: Summary Statistics
-##Let's start by examining some basic statistics and the structure of the dataset.
+# Step 1: Summary Statistics
+## Let's start by examining some basic statistics and the structure of the dataset.
 
 
 ```{r Your Third Code Chunk}
@@ -195,7 +195,7 @@ library(readr)
 
 
 
-#Step 2:Data Processing
+# Step 2:Data Processing
 ```{r Your Fourth Code Chunk}
 # Select only numeric columns and convert them to numeric
 numeric_data <- select(student_performance_dataset, -c(YOB, repeats_since_Y1)) %>%
@@ -223,8 +223,8 @@ selected_data <- student_performance_dataset %>%
 library(readr)
 ```
 
-#Step 3: Measures of Frequency and Summary Statistics
-###In this step, we will calculate measures of frequency and summary statistics for selected variables.
+# Step 3: Measures of Frequency and Summary Statistics
+### In this step, we will calculate measures of frequency and summary statistics for selected variables.
 
 ```{r Your Fifth Code Chunk}
 # Measures of Frequency
@@ -340,8 +340,8 @@ print(kurtosis_exercise)
 library(readr)
 ```
 
-#Step 4: Data Visualization
-###In this step, we will create visualizations to explore the data.
+# Step 4: Data Visualization
+### In this step, we will create visualizations to explore the data.
 
 ```{r Your Sixth Code Chunk}
 # Load necessary libraries
@@ -422,8 +422,8 @@ grid.arrange(
 library(readr)
 ```
 
-#Step 5: Statistical Tests
-###In this step, we will perform statistical tests to analyze the data.
+# Step 5: Statistical Tests
+### In this step, we will perform statistical tests to analyze the data.
 
 ```{r Your Seventh Code Chunk}
 # Load necessary libraries
