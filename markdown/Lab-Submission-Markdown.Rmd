@@ -1,6 +1,6 @@
 ---
 title: "Business Intelligence Lab Submission Markdown"
-author: "<Specify your name here>"
+author: "Lumin"
 date: "<25/9/23"
 output:
   github_document: 
