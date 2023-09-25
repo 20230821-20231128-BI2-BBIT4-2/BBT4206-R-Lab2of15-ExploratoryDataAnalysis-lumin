@@ -19,6 +19,7 @@ editor_options:
 |--------------------------------------------------|
 | 112827-Lumin-Kenneth Mungai                      |
 | 134265-Lumin-Emmanuel Kiptoo                     |
+| 123324-Kelly Noella Sota                         |
 
 **BBIT 4.2 Group**: \<either group A, B, or C\>  
 
@@ -436,6 +437,9 @@ dependent_var <- "GRADE"
 
 # Perform the Chi-squared Test for Independence (Gender and Grade)
 chi_square_test <- chisq.test(selected_data$GRADE, selected_data$gender)
+
+# Recode "GRADE" to binary (if needed)
+selected_data$GRADE <- ifelse(selected_data$GRADE == "A", 1, 0)
 
 # Perform Logistic Regression (Gender and Grade)
 logistic_model <- glm(GRADE ~ gender, data = selected_data, family = binomial(link = "logit"))
