@@ -1,6 +1,6 @@
 Business Intelligence Lab Submission Markdown
 ================
-<Specify your name here>
+Lumin
 \<25/9/23
 
 - [Student Details](#student-details)
@@ -1292,6 +1292,7 @@ statistical tests to analyze the data.
 
 ``` r
 # Load necessary libraries
+#We start by loading several R libraries that we'll use for statistical analysis. These libraries include tidyverse for data manipulation and visualization, broom for tidying ANOVA (analysis of variance) results, and MASS for logistic regression.
 library(tidyverse)
 library(broom)  # For tidying ANOVA results
 library(MASS)   # For logistic regression
@@ -1305,11 +1306,14 @@ library(MASS)   # For logistic regression
     ##     select
 
 ``` r
+#we specify the names of the independent variable and the dependent variable. The independent variable, independent_var, is set to "study_time," which indicates the variable you want to use as a predictor. The dependent variable, dependent_var, is set to "GRADE," which represents the outcome variable you want to analyze.
 # Specify the independent and dependent variables
 independent_var <- "study_time"
 dependent_var <- "GRADE"
 
+
 # Perform the Chi-squared Test for Independence (Gender and Grade)
+#In this step, we perform a Chi-squared Test for Independence. This test is used to examine the association between two categorical variables: "GRADE" and "gender." The result of the test is stored in the variable chi_square_test.
 chi_square_test <- chisq.test(selected_data$GRADE, selected_data$gender)
 ```
 
@@ -1318,9 +1322,11 @@ chi_square_test <- chisq.test(selected_data$GRADE, selected_data$gender)
 
 ``` r
 # Recode "GRADE" to binary (if needed)
+#If your "GRADE" variable contains multiple levels (e.g., "A," "B," "C"), and you want to perform logistic regression, you typically need to recode it as binary. Here, we recode "GRADE" such that if the original value is "A," it is recoded as 1 (indicating success), and for any other value, it is recoded as 0 (indicating not successful)
 selected_data$GRADE <- ifelse(selected_data$GRADE == "A", 1, 0)
 
 # Perform Logistic Regression (Gender and Grade)
+#Finally, we perform logistic regression. Logistic regression is a statistical method used when the dependent variable is binary (in this case, "GRADE" after recoding). We model "GRADE" as a function of "gender." The family = binomial(link = "logit") argument specifies that we are using logistic regression with a logit link function.
 logistic_model <- glm(GRADE ~ gender, data = selected_data, family = binomial(link = "logit"))
 
 # Print results
